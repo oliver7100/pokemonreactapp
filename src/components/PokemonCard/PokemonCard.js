@@ -1,6 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
+import { ShopContext } from "../../Context/ShopContext";
 
-const PokemonCard = ({ productname, price, amount, image }) => {
+const PokemonCard = ({ productname, price, amount, image, id }) => {
+  const { addtoCart, cartItems } = useContext(ShopContext);
+
+  const cartItemAmount = cartItems[id];
+
   return (
     <>
       <div className="px-5 mx-auto ">
@@ -24,9 +29,12 @@ const PokemonCard = ({ productname, price, amount, image }) => {
           <div className="flex justify-center">
             <button
               type="button"
+              onClick={() =>
+                addtoCart({ productname, price, amount, image, id })
+              }
               className="w-4/6 text-white text-center bg-buttonColor hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2  dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
             >
-              Add to cart
+              Add to cart {cartItemAmount > 0 && <>({cartItemAmount})</>}
             </button>
           </div>
         </div>

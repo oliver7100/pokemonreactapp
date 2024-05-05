@@ -9,6 +9,7 @@ const PokemonCardList = ({ pokemonData }) => {
         return (
           <PokemonCard
             key={index}
+            id={card.id}
             productname={card.name}
             price={
               card.cardmarket?.prices.averageSellPrice

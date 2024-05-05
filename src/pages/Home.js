@@ -1,44 +1,23 @@
-import React, { useState, useEffect } from "react";
-import {
-  fetchPokemonRarities,
-  fetchPokemonTypes,
-  fetchPokemonSets,
-} from "../components/utils/api";
-import PokemonCardList from "../components/PokemonCard/PokemonCardList";
-import Pagination from "../components/Pagination/Pagination";
+import React, { useState, useContext } from "react";
+import { ShopContext } from "../Context/ShopContext";
 import {
   RaritySelect,
   TypeSelect,
   SetSelect,
 } from "../components/Sorter/SorterComponents";
+import PokemonCardList from "../components/PokemonCard/PokemonCardList";
 import useFilteredPokemonCards from "../components/Sorter/useFilteredPokemonCards";
+import Pagination from "../components/Pagination/Pagination";
+import Cart from "./Cart";
 
 const Home = () => {
-  const [pokemonRarities, setPokemonRarities] = useState([]);
-  const [pokemonTypes, setPokemonTypes] = useState([]);
-  const [pokemonSets, setPokemonSets] = useState([]);
+  const { pokemonRarities, pokemonTypes, pokemonSets } =
+    useContext(ShopContext);
   const [selectedRarity, setSelectedRarity] = useState("");
   const [selectedType, setSelectedType] = useState("");
   const [selectedSet, setSelectedSet] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage, setPostsPerPage] = useState(20);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const rarities = await fetchPokemonRarities();
-        const types = await fetchPokemonTypes();
-        const sets = await fetchPokemonSets();
-        setPokemonRarities(rarities);
-        setPokemonTypes(types);
-        setPokemonSets(sets);
-      } catch (error) {
-        // Handle error if needed
-      }
-    };
-
-    fetchData();
-  }, []);
 
   const filteredPokemonCards = useFilteredPokemonCards(
     selectedRarity,
@@ -67,6 +46,7 @@ const Home = () => {
 
   return (
     <div className="bg-backgroundColor">
+      <Cart></Cart>
       <h1 className="text-white">Choose Card</h1>
       <div>
         <RaritySelect

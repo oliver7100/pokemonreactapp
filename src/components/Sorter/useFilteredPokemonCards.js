@@ -1,20 +1,8 @@
-// useFilteredPokemonCards.js
-import { useState, useEffect } from "react";
-import { fetchPokemonCards } from "../utils/api";
+import { useState, useEffect, useContext } from "react";
+import { ShopContext } from "../../Context/ShopContext";
 
 const useFilteredPokemonCards = (selectedRarity, selectedType, selectedSet) => {
-  const [pokemonCards, setPokemonCards] = useState([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await fetchPokemonCards();
-        setPokemonCards(data.data);
-      } catch (error) {}
-    };
-
-    fetchData();
-  }, []);
+  const { pokemonCards } = useContext(ShopContext);
 
   return pokemonCards.filter((card) => {
     const matchesRarity = !selectedRarity || card.rarity === selectedRarity;
