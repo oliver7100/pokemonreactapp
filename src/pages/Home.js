@@ -8,7 +8,7 @@ import {
 import PokemonCardList from "../components/PokemonCard/PokemonCardList";
 import useFilteredPokemonCards from "../components/Sorter/useFilteredPokemonCards";
 import Pagination from "../components/Pagination/Pagination";
-import Cart from "./Cart";
+import { Modal } from "../components/Modal/Modal";
 
 const Home = () => {
   const { pokemonRarities, pokemonTypes, pokemonSets } =
@@ -18,6 +18,15 @@ const Home = () => {
   const [selectedSet, setSelectedSet] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage, setPostsPerPage] = useState(20);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   const filteredPokemonCards = useFilteredPokemonCards(
     selectedRarity,
@@ -46,8 +55,9 @@ const Home = () => {
 
   return (
     <div className="bg-backgroundColor">
-      <Cart></Cart>
-      <h1 className="text-white">Choose Card</h1>
+      <button onClick={openModal}>Open Modal</button>
+      <Modal isOpen={isModalOpen} onClose={closeModal}></Modal>
+      <h1 className="text-white ">Choose Card</h1>
       <div>
         <RaritySelect
           rarities={pokemonRarities}
