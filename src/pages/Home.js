@@ -55,27 +55,32 @@ const Home = () => {
 
   return (
     <div className="bg-backgroundColor">
-      <button onClick={openModal}>Open Modal</button>
-      <Modal isOpen={isModalOpen} onClose={closeModal}></Modal>
-      <h1 className="text-white ">Choose Card</h1>
-      <div>
-        <RaritySelect
-          rarities={pokemonRarities}
-          selectedRarity={selectedRarity}
-          onRarityChange={handleRarityChange}
-        />
-        <TypeSelect
-          types={pokemonTypes}
-          selectedType={selectedType}
-          onTypeChange={handleTypeChange}
-        />
-        <SetSelect
-          sets={pokemonSets}
-          selectedSet={selectedSet}
-          onSetChange={handleSetChange}
-        />
+      <div className="container flex items-center justify-between mx-auto">
+        <div className="flex items-center">
+          <h1 className="text-xl font-bold text-white my-7">Choose Card</h1>
+        </div>
+
+        <div className="flex items-center ml-auto">
+          <RaritySelect
+            rarities={pokemonRarities}
+            selectedRarity={selectedRarity}
+            onRarityChange={handleRarityChange}
+          />
+          <TypeSelect
+            types={pokemonTypes}
+            selectedType={selectedType}
+            onTypeChange={handleTypeChange}
+          />
+          <SetSelect
+            sets={pokemonSets}
+            selectedSet={selectedSet}
+            onSetChange={handleSetChange}
+          />
+        </div>
       </div>
-      <PokemonCardList pokemonData={currentPosts} />
+      <div className="container flex mx-auto">
+        <PokemonCardList pokemonData={currentPosts} />
+      </div>
       <div className="flex items-center justify-center w-screen">
         <Pagination
           totalPosts={filteredPokemonCards.length}
