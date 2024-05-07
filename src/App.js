@@ -6,7 +6,6 @@ import Header from "./components/Header/Header";
 function App() {
   return (
     <ShopContextProvider>
-      <Header />
       <Routes>
         <Route path="/" element={<Home />} />
       </Routes>

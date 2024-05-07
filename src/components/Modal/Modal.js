@@ -4,7 +4,16 @@ import { ShopContext } from "../../Context/ShopContext";
 import { IoCloseOutline } from "react-icons/io5";
 
 export const Modal = ({ isOpen, onClose }) => {
-  const { pokemonCards, cartItems } = useContext(ShopContext);
+  const {
+    pokemonCards,
+    cartItems,
+    addtoCart,
+    removeFromCart,
+    getTotalCartAmount,
+    getTotalCartPrice,
+    clearCart,
+    getTotalIndividualCardPrice,
+  } = useContext(ShopContext);
   console.log("Cart items in Cart component:", cartItems); // Log cartItems
 
   if (!isOpen) return null;
@@ -45,14 +54,17 @@ export const Modal = ({ isOpen, onClose }) => {
                         </Dialog.Title>
                         <button
                           type="button"
-                          className="relative flex items-center justify-center p-2 text-3xl text-white border border-transparent rounded-md shadow-lg w-14 h-14 hover:text-gray-500 shadow-accentColor/40 bg-accentColor hover:bg-indigo-700"
+                          className="relative flex items-center justify-center p-2 text-3xl text-white border border-transparent rounded-md shadow-lg w-14 h-14 hover:text-black shadow-accentColor/40 bg-accentColor hover:bg-hoverColor"
                           onClick={onClose}
                         >
                           <IoCloseOutline></IoCloseOutline>
                         </button>
                       </div>
                       <div className="mb-8">
-                        <button className="underline text-secondaryTextColor">
+                        <button
+                          onClick={() => clearCart()}
+                          className="underline text-secondaryTextColor hover:text-gray-700"
+                        >
                           Clear All
                         </button>
                       </div>
@@ -87,10 +99,9 @@ export const Modal = ({ isOpen, onClose }) => {
 
                                           <p className="ml-4">
                                             €{" "}
-                                            {
-                                              pokemonCard.cardmarket?.prices
-                                                .averageSellPrice
-                                            }
+                                            {getTotalIndividualCardPrice(
+                                              pokemonCard.id
+                                            )}
                                           </p>
                                         </div>
                                         <div>
@@ -106,13 +117,21 @@ export const Modal = ({ isOpen, onClose }) => {
                                     </div>
                                   </li>
                                   <div className="flex items-center justify-center gap-4 text-primaryTextColor">
-                                    <button className="w-16 px-4 py-2 text-xl font-bold rounded bg-buttonColor h-14 hover:bg-gray-400">
+                                    <button
+                                      onClick={() => addtoCart(pokemonCard)}
+                                      className="w-16 px-4 py-2 text-xl font-bold rounded bg-buttonColor h-14 hover:bg-gray-500"
+                                    >
                                       +
                                     </button>
-                                    <p className="w-9/12 py-2 text-xl font-bold text-center rounded bg-buttonColor h-14 hover:bg-gray-400">
+                                    <p className="w-9/12 py-2 text-xl font-bold text-center border border-transparent rounded bg-buttonColor h-14 hover:bg-transparent hover:border-white">
                                       {cartQuantity}
                                     </p>
-                                    <button className="w-16 px-4 py-2 text-xl font-bold rounded bg-buttonColor h-14 hover:bg-gray-400">
+                                    <button
+                                      onClick={() =>
+                                        removeFromCart(pokemonCard)
+                                      }
+                                      className="w-16 px-4 py-2 text-xl font-bold rounded bg-buttonColor h-14 hover:bg-gray-500"
+                                    >
                                       -
                                     </button>
                                   </div>
@@ -129,16 +148,21 @@ export const Modal = ({ isOpen, onClose }) => {
                     <div className="px-4 py-6 border-t border-buttonColor sm:px-6">
                       <div className="flex justify-between mb-3 text-base font-medium text-gray-900">
                         <p className="text-secondaryColor">Total card amount</p>
-                        <p className="text-primaryTextColor">1</p>
+                        <p className="text-primaryTextColor">
+                          {getTotalCartAmount()}
+                        </p>
                       </div>
                       <div className="flex justify-between text-base font-medium text-gray-900">
                         <p className="text-secondaryColor">Total price</p>
-                        <p className="text-primaryTextColor">$262.00</p>
+                        <p className="text-primaryTextColor">
+                          {" "}
+                          € {getTotalCartPrice()}
+                        </p>
                       </div>
                       <div className="mt-6">
                         <a
                           href="#"
-                          className="flex items-center justify-center px-6 py-3 text-base font-medium border border-transparent rounded-md shadow-lg shadow-accentColor/40 text-primaryTextColor bg-accentColor hover:bg-indigo-700"
+                          className="flex items-center justify-center px-6 py-3 text-base font-medium border border-transparent rounded-md shadow-lg shadow-accentColor/40 text-primaryTextColor bg-accentColor hover:bg-hoverColor"
                         >
                           Continue to Payment
                         </a>

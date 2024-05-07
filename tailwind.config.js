@@ -8,12 +8,14 @@ module.exports = {
     extend: {
       colors: {
         primaryColor: "#1F1D2B",
-        secondaryColor: "#ABBBC2",
+        secondaryColor: "#99A6AE",
         accentColor: "#EA7C69",
+        hoverColor: "#C46858",
         backgroundColor: "#252836",
         buttonColor: "#312F3C",
         primaryTextColor: "#FDFDFD",
         secondaryTextColor: "#6D757F",
+
         overlay: "#000000",
       },
     },

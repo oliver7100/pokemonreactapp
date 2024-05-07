@@ -1,14 +1,10 @@
 import React, { useState, useContext } from "react";
 import { ShopContext } from "../Context/ShopContext";
-import {
-  RaritySelect,
-  TypeSelect,
-  SetSelect,
-} from "../components/Sorter/SorterComponents";
 import PokemonCardList from "../components/PokemonCard/PokemonCardList";
 import useFilteredPokemonCards from "../components/Sorter/useFilteredPokemonCards";
 import Pagination from "../components/Pagination/Pagination";
-import { Modal } from "../components/Modal/Modal";
+import Dropdown from "../components/Sorter/Dropdown";
+import Header from "../components/Header/Header";
 
 const Home = () => {
   const { pokemonRarities, pokemonTypes, pokemonSets } =
@@ -16,22 +12,16 @@ const Home = () => {
   const [selectedRarity, setSelectedRarity] = useState("");
   const [selectedType, setSelectedType] = useState("");
   const [selectedSet, setSelectedSet] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage, setPostsPerPage] = useState(20);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
 
   const filteredPokemonCards = useFilteredPokemonCards(
     selectedRarity,
     selectedType,
-    selectedSet
+    selectedSet,
+    searchQuery
   );
 
   const handleRarityChange = (event) => {
@@ -46,6 +36,10 @@ const Home = () => {
     setSelectedSet(event.target.value);
   };
 
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+  };
+
   const lastPostIndex = currentPage * postsPerPage;
   const firstPostIndex = lastPostIndex - postsPerPage;
   const currentPosts = filteredPokemonCards.slice(
@@ -54,34 +48,40 @@ const Home = () => {
   );
 
   return (
-    <div className="bg-backgroundColor">
+    <div className="min-h-screen bg-backgroundColor">
+      <Header handleSearch={handleSearch} />
       <div className="container flex items-center justify-between mx-auto">
         <div className="flex items-center">
           <h1 className="text-xl font-bold text-white my-7">Choose Card</h1>
         </div>
 
         <div className="flex items-center ml-auto">
-          <RaritySelect
-            rarities={pokemonRarities}
-            selectedRarity={selectedRarity}
-            onRarityChange={handleRarityChange}
+          <Dropdown
+            name="Rarities"
+            options={pokemonRarities}
+            selectedValue={selectedRarity}
+            onChange={handleRarityChange}
+            className="mr-4"
           />
-          <TypeSelect
-            types={pokemonTypes}
-            selectedType={selectedType}
-            onTypeChange={handleTypeChange}
+          <Dropdown
+            name={"Types"}
+            options={pokemonTypes}
+            selectedValue={selectedType}
+            onChange={handleTypeChange}
+            className="mr-4"
           />
-          <SetSelect
-            sets={pokemonSets}
-            selectedSet={selectedSet}
-            onSetChange={handleSetChange}
+          <Dropdown
+            name={"Sets"}
+            options={pokemonSets.map((set) => set.name)}
+            selectedValue={selectedSet}
+            onChange={handleSetChange}
           />
         </div>
       </div>
       <div className="container flex mx-auto">
         <PokemonCardList pokemonData={currentPosts} />
       </div>
-      <div className="flex items-center justify-center w-screen">
+      <div className="flex items-center justify-center w-screen mt-10">
         <Pagination
           totalPosts={filteredPokemonCards.length}
           postsPerPage={postsPerPage}

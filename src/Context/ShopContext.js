@@ -27,13 +27,47 @@ export const ShopContextProvider = (props) => {
         setPokemonSets(sets);
         setPokemonCards(cards.data);
         setCartItems(getDefaultCart(cards.data));
-      } catch (error) {
-        // Handle error if needed
-      }
+      } catch (error) {}
     };
 
     fetchData();
   }, []);
+
+  const getTotalIndividualCardPrice = (cardId) => {
+    const card = pokemonCards.find((pokemonCard) => pokemonCard.id === cardId);
+    if (card) {
+      return (
+        cartItems[cardId] * card.cardmarket.prices.averageSellPrice
+      ).toFixed(2);
+    }
+    return 0; // Return 0 if card not found
+  };
+
+  const getTotalCartPrice = () => {
+    let totalPrice = 0;
+    for (const item in cartItems) {
+      if (cartItems[item] > 0) {
+        const card = pokemonCards.find(
+          (pokemonCard) => pokemonCard.id === item
+        );
+        if (card) {
+          totalPrice +=
+            cartItems[item] * card.cardmarket.prices.averageSellPrice;
+        }
+      }
+    }
+    return totalPrice.toFixed(2); // Return total price rounded to 2 decimal places
+  };
+
+  const getTotalCartAmount = () => {
+    let totalAmount = 0;
+    for (const item in cartItems) {
+      if (cartItems[item] > 0) {
+        totalAmount += cartItems[item];
+      }
+    }
+    return totalAmount;
+  };
 
   const getDefaultCart = (pokemonCards) => {
     let cart = {};
@@ -48,6 +82,16 @@ export const ShopContextProvider = (props) => {
       const updatedCart = { ...prev };
       updatedCart[card.id] = (updatedCart[card.id] || 0) + 1;
       console.log("Cart items after adding", updatedCart);
+      return updatedCart;
+    });
+  };
+
+  const clearCart = () => {
+    setCartItems((prevCartItems) => {
+      const updatedCart = {};
+      for (const key in prevCartItems) {
+        updatedCart[key] = 0; // Reset quantity to zero for each item
+      }
       return updatedCart;
     });
   };
@@ -70,6 +114,10 @@ export const ShopContextProvider = (props) => {
     cartItems,
     addtoCart,
     removeFromCart,
+    getTotalCartAmount,
+    getTotalCartPrice,
+    clearCart,
+    getTotalIndividualCardPrice,
   };
 
   console.log(cartItems);
