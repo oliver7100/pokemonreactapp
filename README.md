@@ -10,3 +10,4 @@ After the installation is complete, start up the development server to run the R
 
 npm start
 
+Note: Not every Pokémon card from the API is fetched, so some sorter categories might be empty. However, all of them are functional.
