@@ -7,16 +7,17 @@ import Dropdown from "../components/Sorter/Dropdown";
 import Header from "../components/Header/Header";
 
 const Home = () => {
+  // Context and State variables
   const { pokemonRarities, pokemonTypes, pokemonSets } =
     useContext(ShopContext);
   const [selectedRarity, setSelectedRarity] = useState("");
   const [selectedType, setSelectedType] = useState("");
   const [selectedSet, setSelectedSet] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
-
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage, setPostsPerPage] = useState(20);
 
+  // Filtering logic
   const filteredPokemonCards = useFilteredPokemonCards(
     selectedRarity,
     selectedType,
@@ -24,6 +25,7 @@ const Home = () => {
     searchQuery
   );
 
+  // Event handlers
   const handleRarityChange = (event) => {
     setSelectedRarity(event.target.value);
   };
@@ -40,6 +42,7 @@ const Home = () => {
     setSearchQuery(query);
   };
 
+  // Pagination logic
   const lastPostIndex = currentPage * postsPerPage;
   const firstPostIndex = lastPostIndex - postsPerPage;
   const currentPosts = filteredPokemonCards.slice(
@@ -49,13 +52,15 @@ const Home = () => {
 
   return (
     <div className="min-h-screen bg-backgroundColor">
+      {/* Header component for search */}
       <Header handleSearch={handleSearch} />
-      <div className="container flex items-center justify-between mx-auto">
-        <div className="flex items-center">
-          <h1 className="text-xl font-bold text-white my-7">Choose Card</h1>
-        </div>
 
-        <div className="flex items-center ml-auto">
+      {/* Dropdowns for filtering */}
+      <div className="container flex flex-col items-center justify-between mx-auto md:flex-row mb-7">
+        <h1 className="text-xl font-bold text-white my-7 md:my-0">
+          Choose Card
+        </h1>
+        <div className="flex items-center mt-4 md:mt-0">
           <Dropdown
             name="Rarities"
             options={pokemonRarities}
@@ -78,10 +83,14 @@ const Home = () => {
           />
         </div>
       </div>
-      <div className="container flex mx-auto">
+
+      {/* Displaying filtered Pokémon cards */}
+      <div className="container flex justify-center mx-auto ">
         <PokemonCardList pokemonData={currentPosts} />
       </div>
-      <div className="flex items-center justify-center w-screen mt-10">
+
+      {/* Pagination component */}
+      <div className="flex items-center justify-center mt-10">
         <Pagination
           totalPosts={filteredPokemonCards.length}
           postsPerPage={postsPerPage}

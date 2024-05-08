@@ -2,10 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Styles for pagination buttons */
 .pagination-button {
-  @apply flex items-center justify-center h-10 px-4 leading-tight border text-primaryTextColor border-buttonColor hover:bg-gray-100 hover:text-gray-700 bg-primaryColor dark:border-gray-700 dark:hover:bg-gray-700 dark:hover:text-white;
+  @apply flex items-center justify-center h-10 px-4 leading-tight border text-primaryTextColor border-borderColor hover:bg-gray-100 hover:text-gray-700 bg-primaryColor dark:border-gray-700 dark:hover:bg-gray-700 dark:hover:text-white;
 }
 
+/* Styles for the current page indicator */
 .current-page {
-  @apply bg-buttonColor;
+  @apply bg-borderColor;
 }

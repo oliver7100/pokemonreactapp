@@ -3,17 +3,21 @@ import { FiShoppingBag } from "react-icons/fi";
 import { Modal } from "../Modal/Modal";
 
 const Header = ({ handleSearch }) => {
+  // State for modal open/close and search query
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
+  // Function to open modal
   const openModal = () => {
     setIsModalOpen(true);
   };
 
+  // Function to close modal
   const closeModal = () => {
     setIsModalOpen(false);
   };
 
+  // Function to handle search input change
   const handleChange = (event) => {
     setSearchQuery(event.target.value);
     handleSearch(event.target.value);
@@ -21,17 +25,26 @@ const Header = ({ handleSearch }) => {
 
   return (
     <>
-      <nav className="py-4 bg-gray-800">
-        <div className="container relative flex items-center justify-between mx-auto">
-          <div className="flex items-center">
+      {/* Header navigation */}
+      <nav className="py-4 bg-backgroundColor">
+        <div className="container relative flex flex-col items-center justify-between mx-auto md:flex-row">
+          {/* Logo and mobile cart button */}
+          <div className="flex items-center mb-4 md:mb-0">
             <h1 className="text-2xl font-bold text-white mr-14">
               Pokemon market
             </h1>
+            <button
+              onClick={openModal}
+              className="flex items-center justify-center w-12 h-12 px-4 py-2 text-white rounded-lg shadow-lg shadow-accentColor/40 bg-accentColor md:hidden"
+            >
+              <FiShoppingBag />
+            </button>
           </div>
-          <div className="flex items-center ml-auto">
+          {/* Search input and desktop cart button */}
+          <div className="flex flex-col items-center md:flex-row md:ml-auto">
             <div className="relative">
               <input
-                className="w-48 px-3 py-2 pl-10 mr-4 leading-tight text-white transition-colors border-2 rounded-md appearance-none bg-backgroundColor border-buttonColor hover:border-white focus:outline-none focus:ring-white focus:border-white focus:shadow-outline"
+                className="w-full px-3 py-2 pl-10 mr-4 leading-tight text-white transition-colors border-2 rounded-md appearance-none md:w-48 bg-backgroundColor border-borderColor hover:border-white focus:outline-none focus:ring-white focus:border-white focus:shadow-outline"
                 id="username"
                 type="text"
                 placeholder="Search by Name"
@@ -59,14 +72,16 @@ const Header = ({ handleSearch }) => {
 
             <button
               onClick={openModal}
-              className="flex items-center justify-center w-12 h-12 px-4 py-2 text-white rounded-lg shadow-lg shadow-accentColor/40 bg-accentColor"
+              className="items-center justify-center hidden w-12 h-12 px-4 py-2 text-white rounded-lg shadow-lg md:flex shadow-accentColor/40 bg-accentColor"
             >
               <FiShoppingBag />
             </button>
+            {/* Modal for cart */}
             <Modal isOpen={isModalOpen} onClose={closeModal}></Modal>
           </div>
-          <div className="mt-20">
-            <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-buttonColor "></span>
+          {/* Divider line */}
+          <div className="mt-6 md:mt-20">
+            <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-borderColor "></span>
           </div>
         </div>
       </nav>
